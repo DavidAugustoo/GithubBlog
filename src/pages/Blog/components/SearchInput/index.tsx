@@ -11,15 +11,16 @@ type SearchFormInput = z.infer<typeof searchFormSchema>
 
 interface SearchInputProps {
   postsLength: number
+  getPosts: (query?: string) => Promise<void>
 }
 
-export function SearchInput({ postsLength }: SearchInputProps) {
+export function SearchInput({ postsLength, getPosts }: SearchInputProps) {
   const { register, handleSubmit } = useForm<SearchFormInput>({
     resolver: zodResolver(searchFormSchema),
   })
 
   async function handleSearchPosts(data: SearchFormInput) {
-    console.log(data)
+    await getPosts(data.query)
   }
 
   return (
